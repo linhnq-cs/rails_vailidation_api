@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.bindir      = "exe"
 
   spec.add_dependency "activesupport", ">= 6.0"
-  spec.add_dependency "rails_param", "~> 0.9.0"
+  spec.add_dependency "rails_param", ">= 0.9", "< 1.4"
   spec.add_dependency "activemodel", ">= 6.0"
 
   spec.add_development_dependency "debug"
