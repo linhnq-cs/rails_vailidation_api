@@ -30,10 +30,6 @@ gem install rails_validation_api
 
 After installing the gem, run the install command to set up the necessary files:
 
-```bash
-rails_validation_api install
-```
-
 This will generate the required application validator structure in your Rails application.
 
 ### Basic Usage
@@ -60,7 +56,7 @@ end
 
 ```ruby
 # app/validators/api/validate_parameters/users_validator.rb
-class API::ValidateParameters::UsersValidator < ApplicationValidator
+class API::ValidateParameters::UsersValidator
   FIELDS_VALIDATES = {
     name: { required: true, type: String },
     email: { required: true, type: String, format: /@/ },
@@ -84,7 +80,7 @@ end
 Generate both parameter and business logic validators for a given name:
 
 ```bash
-rails_validation_api generate users
+bundle exec rails_validation_api generate users
 ```
 
 This creates:
@@ -96,18 +92,10 @@ This creates:
 Remove validators for a given name:
 
 ```bash
-rails_validation_api destroy users
+bundle exec rails_validation_api destroy users
 ```
 
 This removes both parameter and business logic validators.
-
-### Install
-
-Set up the gem and generate application validator:
-
-```bash
-rails_validation_api install
-```
 
 ## Validation DSL
 
