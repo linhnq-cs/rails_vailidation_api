@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-module AutoLoadRailsValidation
+module AutoLoadRailsValidationApi
   extend ActiveSupport::Concern
 
   included do
@@ -43,7 +43,7 @@ module AutoLoadRailsValidation
     opts = opts.blank? ? params : opts
     rules = @param_validator.send(action) rescue nil
     if rules.present?
-      validator = RailsValidation::Validator.new(params, rules)
+      validator = RailsValidationApi::Validator.new(params, rules)
       validator.validate
     end
     get_params = @validator.method(action).arity rescue nil
@@ -56,7 +56,7 @@ module AutoLoadRailsValidation
       rescue NoMethodError => ex
         nil
       rescue Exception => ex
-        raise RailsValidation::Error.new(ex.status, ex.message)
+        raise RailsValidationApi::Error.new(ex.status, ex.message)
       end
     else
       begin
@@ -65,7 +65,7 @@ module AutoLoadRailsValidation
         nil
       rescue => ex
         status_code = ex.is_a?(ActiveRecord::RecordNotFound) ? :not_found : ex.status
-        raise RailsValidation::Error.new(status_code, ex.message)
+        raise RailsValidationApi::Error.new(status_code, ex.message)
       end
     end
   end

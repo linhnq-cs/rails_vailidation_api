@@ -10,12 +10,12 @@ NAME    = ARGV.shift&.downcase
 def usage
   puts <<~TEXT
     Usage:
-      rails_validation install
-      rails_validation generate [validator_name]
-      rails_validation destroy  [validator_name]
+      rails_validation_api install
+      rails_validation_api generate [validator_name]
+      rails_validation_api destroy  [validator_name]
     Example:
-      rails_validation generate purchaseorder
-      rails_validation destroy purchaseorder
+      rails_validation_api generate purchaseorder
+      rails_validation_api destroy purchaseorder
   TEXT
 end
 
@@ -111,18 +111,18 @@ end
 
 case COMMAND
 when "install"
-  puts "🚀 Installing rails_validation..."
+  puts "🚀 Installing rails_validation_api..."
   generate_validator("application")
 when "generate" 
   if NAME.nil?
-    puts "❌ Please provide a name. Example: rails_validation generate purchaseorder"
+    puts "❌ Please provide a name. Example: rails_validation_api generate purchaseorder"
   else
     generate_parameter_validator(NAME)
     generate_validator(NAME)
   end
 when "destroy" 
   if NAME.nil?
-     puts "❌ Please provide a name. Example: rails_validation generate purchaseorder"
+     puts "❌ Please provide a name. Example: rails_validation_api generate purchaseorder"
   else
     destroy_validator(NAME)
   end

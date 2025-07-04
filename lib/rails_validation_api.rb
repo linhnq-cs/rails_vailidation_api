@@ -5,8 +5,8 @@ require "active_model"
 require "active_support"
 require "rails_param"
 require "active_support/core_ext/hash"
-require_relative "rails_validation/dsl"
-require_relative "rails_validation/validator"
+require_relative "rails_validation_api/dsl"
+require_relative "rails_validation_api/validator"
 require "active_support/concern"
 require "active_support/core_ext/string/inflections"
 require "rails_param"
@@ -15,7 +15,7 @@ require "time"
 require "bigdecimal"
 require "active_support/all"
 
-module RailsValidation
+module RailsValidationApi
   class Error < StandardError
     attr_reader :field, :status, :additional_info
     def initialize(field = :base, status = :unprocessable_entity, message = nil, additional_info: nil)

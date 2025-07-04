@@ -1,7 +1,7 @@
-require_relative "lib/rails_validation"
-require_relative "lib/auto_load_rails_validation"
+require_relative "lib/rails_validation_api"
+require_relative "lib/auto_load_rails_validation_api"
 
-include AutoLoadRailsValidation
+include AutoLoadRailsValidationApi
 
 input = {
   account_id: 123,
@@ -32,6 +32,6 @@ FIELDS_VALIDATES = {
 controller = 'purchase_order_controller'
 action = 'index'
 
-validator = RailsValidation::Validator.new(input, FIELDS_VALIDATES)
+validator = RailsValidationApi::Validator.new(input, FIELDS_VALIDATES)
 puts "Valid? #{validator.validate}"
 puts validator.errors.inspect

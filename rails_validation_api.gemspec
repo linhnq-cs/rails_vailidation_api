@@ -1,17 +1,17 @@
-require_relative "lib/rails_validation/version"
+require_relative "lib/rails_validation_api/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "rails_validation"
-  spec.version       = RailsValidation::VERSION
+  spec.name          = "rails_validation_api"
+  spec.version       = RailsValidationApi::VERSION
   spec.authors       = ["Linh Nguyen Quang"]
   spec.email         = ["linhnq@gmail.com"]
   spec.summary       = "Strong parameter-style validation for Rails or plain Ruby apps"
   spec.description   = "Provides a DSL to validate and permit params like Rails strong parameters"
-  spec.homepage      = "https://github.com/your_username/rails_validation"
+  spec.homepage      = "https://github.com/your_username/rails_validation_api"
   spec.license       = "MIT"
   spec.files         = Dir["lib/**/*.rb"]
   spec.require_paths = ["lib"]
-  spec.executables = ["rails_validation"]
+  spec.executables = ["rails_validation_api"]
   spec.bindir      = "exe"
 
   spec.add_dependency "activesupport"

@@ -3,7 +3,7 @@ require "time"
 require "bigdecimal"
 require "active_support/all"
 
-module RailsValidation
+module RailsValidationApi
   class Validator
     include RailsParam
 
@@ -24,7 +24,7 @@ module RailsValidation
       end
       if @errors.any?
         @errors.each do |error|
-          raise RailsValidation::Error.new(error[:field], :unprocessable_entity, error[:message])
+          raise RailsValidationApi::Error.new(error[:field], :unprocessable_entity, error[:message])
         end
       end
     end

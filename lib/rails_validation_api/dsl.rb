@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module RailsValidation
+module RailsValidationApi
   class DSL
     attr_reader :rules
 
