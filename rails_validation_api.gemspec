@@ -5,9 +5,9 @@ Gem::Specification.new do |spec|
   spec.version       = RailsValidationApi::VERSION
   spec.authors       = ["Linh Nguyen Quang"]
   spec.email         = ["linhnq@gmail.com"]
-  spec.summary       = "Strong parameter-style validation for Rails or plain Ruby apps"
-  spec.description   = "Provides a DSL to validate and permit params like Rails strong parameters"
-  spec.homepage      = "https://github.com/your_username/rails_validation_api"
+  spec.summary       = "Enhanced parameter validation system for Rails APIs with automatic controller integration"
+  spec.description   = "Rails Validation API provides a powerful DSL for validating request parameters in Rails applications. Features include automatic validator loading based on controller/action names, nested parameter validation, custom error handling, and seamless integration with Rails controllers through concerns. Perfect for API applications requiring robust parameter validation with minimal boilerplate code."
+  spec.homepage      = "https://github.com/linhnq-cs/rails_vailidation_api"
   spec.license       = "MIT"
   spec.files         = Dir["lib/**/*.rb"]
   spec.require_paths = ["lib"]
