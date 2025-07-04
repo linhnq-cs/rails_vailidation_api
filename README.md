@@ -40,6 +40,7 @@ The gem provides automatic parameter validation through Rails controller concern
 
 ```ruby
 class API::UsersController < ApplicationController
+  require "auto_load_rails_validation_api"
   include AutoLoadRailsValidation
 
   def create
