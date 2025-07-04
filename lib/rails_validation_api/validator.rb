@@ -2,6 +2,7 @@ require "date"
 require "time"
 require "bigdecimal"
 require "active_support/all"
+require "rails_param"
 
 module RailsValidationApi
   class Validator

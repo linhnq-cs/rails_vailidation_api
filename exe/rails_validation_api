@@ -20,7 +20,7 @@ def usage
 end
 
 def check_inflection(name)
-  require_relative "../config/initializers/inflections"
+  require Rails.root.join('config/initializers/inflections')
   if ActiveSupport::Inflector.inflections.acronyms.key?("api")
     'API'
   else
