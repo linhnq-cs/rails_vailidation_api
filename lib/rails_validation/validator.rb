@@ -1,6 +1,11 @@
+require "date"
+require "time"
+require "bigdecimal"
+require "active_support/all"
+
 module RailsValidation
   class Validator
-    include RailsParam::Param
+    include RailsParam
 
     attr_accessor :params
     attr_reader :errors
