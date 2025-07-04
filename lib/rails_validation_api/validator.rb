@@ -48,7 +48,7 @@ module RailsValidationApi
 
         begin
           param! field, type, **opt
-        rescue RailsParam::Param::InvalidParameterError => e
+        rescue RailsParam::InvalidParameterError => e
           message = (e.message).include?(type.to_s) ? e.message : opt[:message]
           @errors << { field: field, message: message }
         end
@@ -79,7 +79,7 @@ module RailsValidationApi
 
           begin
             temp_validator.param! item_field, item_type, **opt
-          rescue RailsParam::Param::InvalidParameterError => e
+          rescue RailsParam::InvalidParameterError => e
             message = (e.message).include?(item_type.to_s) ? e.message : opt[:message]
             @errors << { field: "#{parent_field}.#{item_field}", message: message }
           end

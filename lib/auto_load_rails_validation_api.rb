@@ -5,6 +5,7 @@ module AutoLoadRailsValidationApi
   included do
     before_action :set_validation_context
     before_action :auto_load_method
+    rescue_from RailsValidationApi::Error, with: :render_validation_error
   end
 
   def auto_load_method
@@ -30,14 +31,15 @@ module AutoLoadRailsValidationApi
   end
 
   def validator_name
-    "API::#{@model_name}Validator"
+    "#{@name}::#{@model_name}Validator"
   end
 
   def param_object_validator_name
-    "API::ValidateParameters::#{@model_name}Validator"
+    "#{@name}::ValidateParameters::#{@model_name}Validator"
   end
 
   def call_validator(action: nil, opts: {})
+    check_inflection
     set_validator
     action = (action || action_name).to_sym
     opts = opts.blank? ? params : opts
@@ -69,4 +71,26 @@ module AutoLoadRailsValidationApi
       end
     end
   end
+
+  def check_inflection
+    app_root = defined?(Rails) ? Rails.root : Dir.pwd
+    inflection_path = File.join(app_root, "config", "initializers", "inflections.rb")
+
+    require inflection_path if File.exist?(inflection_path)
+    @name ||= if ActiveSupport::Inflector.inflections.acronyms.key?("api")
+      "API"
+    else
+      "Api"
+    end
+  end
+
+  def render_validation_error(exception)
+    render json: {
+      errors: {
+        field: exception.field,
+        message: exception.message,
+        additional_info: exception.additional_info
+      }
+    }, status: exception.status
+    end
 end

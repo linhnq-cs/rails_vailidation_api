@@ -14,9 +14,9 @@ Gem::Specification.new do |spec|
   spec.executables = ["rails_validation_api"]
   spec.bindir      = "exe"
 
-  spec.add_dependency "activesupport"
-  spec.add_dependency "rails_param"
-  spec.add_dependency "activemodel"
+  spec.add_dependency "activesupport", ">= 5.0"
+  spec.add_dependency "rails_param", "~> 0.9.0"
+  spec.add_dependency "activemodel", ">= 5.0"
 
   spec.add_development_dependency "debug"
 end
