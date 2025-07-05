@@ -58,18 +58,92 @@ end
 ```ruby
 # app/validators/api/validate_parameters/users_validator.rb
 class API::ValidateParameters::UsersValidator
-  FIELDS_VALIDATES = {
-    name: { required: true, type: String },
-    email: { required: true, type: String, format: /@/ },
-    age: { required: false, type: Integer, min: 18 }
-  }
+  # Default empty hash - define your validation rules here
+  FIELDS_VALIDATES = {}.freeze
+
+  # Or with comprehensive validation rules defined:
+  # FIELDS_VALIDATES = {
+  #   # Basic string validation
+  #   name: { required: true, type: String, min: 2, max: 50 },
+  #   
+  #   # Email with format validation
+  #   email: { required: true, type: String, format: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i },
+  #   
+  #   # Integer with range validation
+  #   age: { required: false, type: Integer, min: 18, max: 120 },
+  #   
+  #   # Float validation
+  #   price: { required: true, type: Float, min: 0.01 },
+  #   
+  #   # Boolean validation
+  #   active: { required: false, type: Boolean },
+  #   
+  #   # Date validation
+  #   birth_date: { required: false, type: Date },
+  #   
+  #   # DateTime validation
+  #   created_at: { required: false, type: DateTime },
+  #   
+  #   # Enum validation with 'in' option
+  #   status: { required: true, type: String, in: %w[active inactive pending] },
+  #   
+  #   # Array validation
+  #   tags: { required: false, type: Array },
+  #   
+  #   # Array with specific item types
+  #   category_ids: { required: false, type: Array, items: { type: Integer } },
+  #   
+  #   # Hash validation
+  #   metadata: { required: false, type: Hash },
+  #   
+  #   # Nested Hash validation with structure
+  #   address: { 
+  #     required: false, 
+  #     type: Hash,
+  #     items: [
+  #       { field: :street, type: String, required: true },
+  #       { field: :city, type: String, required: true },
+  #       { field: :state, type: String, required: true, in: %w[CA NY TX FL] },
+  #       { field: :zip_code, type: String, required: true, format: /\A\d{5}(-\d{4})?\z/ },
+  #       { field: :country, type: String, required: false, default: "US" }
+  #     ]
+  #   },
+  #   
+  #   # Complex nested structure
+  #   user_profile: {
+  #     required: false,
+  #     type: Hash,
+  #     items: [
+  #       { field: :bio, type: String, required: false, max: 500 },
+  #       { field: :social_links, type: Array, required: false,
+  #         items: {
+  #           type: Hash,
+  #           items: [
+  #             { field: :platform, type: String, required: true, in: %w[twitter facebook linkedin] },
+  #             { field: :url, type: String, required: true, format: /\Ahttps?:\/\// }
+  #           ]
+  #         }
+  #       }
+  #     ]
+  #   }
+  # }.freeze
 
   def create
-    FIELDS_VALIDATES.slice(:name, :email, :age)
+    # Return validation rules for create action
+    # FIELDS_VALIDATES.slice(:name, :email, :age, :status, :tags)
+    []
   end
 
   def update
-    FIELDS_VALIDATES.slice(:name, :email)
+    # Return validation rules for update action (excluding some required fields)
+    # FIELDS_VALIDATES.slice(:name, :email, :age, :active, :metadata)
+    []
+  end
+
+  def index
+    # Return validation rules for index action (typically query parameters)
+    # FIELDS_VALIDATES.slice(:status, :tags, :created_at)
+    []
   end
 end
 ```
@@ -98,27 +172,63 @@ bundle exec rails_validation_api destroy users
 
 This removes both parameter and business logic validators.
 
-## Validation DSL
+## Validation Options
 
-The gem uses a DSL approach for defining validation rules:
+### Basic Types
+- `String` - String validation with optional min/max length
+- `Integer` - Integer validation with optional min/max range
+- `Float` - Float validation with optional min/max range
+- `Boolean` - Boolean validation (true/false)
+- `Date` - Date validation
+- `DateTime` - DateTime validation
+- `Array` - Array validation with optional item type validation
+- `Hash` - Hash validation with optional nested structure validation
 
+### Common Options
+- `required: true|false` - Whether the field is required
+- `min: value` - Minimum value/length
+- `max: value` - Maximum value/length
+- `default: value` - Default value if not provided
+- `format: /regex/` - Regular expression validation
+- `in: [values]` - Enum validation (value must be in the specified array)
+- `message: "custom message"` - Custom error message
+
+### Array Validation
 ```ruby
-# Using RailsValidation.build
-validator = RailsValidation.build do
-  param! :name, String, required: true
-  param! :email, String, required: true, format: /@/
-  param! :profile do
-    param! :age, Integer, required: false, min: 18
-    param! :city, String, required: true
-  end
-end
+# Simple array
+tags: { type: Array, required: false }
 
-# Validate parameters
-begin
-  validator.validate(params)
-rescue RailsValidation::Error => e
-  render json: { errors: e.message }, status: 422
-end
+# Array with typed items
+category_ids: { type: Array, items: { type: Integer } }
+
+# Array with complex item validation
+social_links: { 
+  type: Array, 
+  items: {
+    type: Hash,
+    items: [
+      { field: :platform, type: String, required: true },
+      { field: :url, type: String, required: true, format: /\Ahttps?:\/\// }
+    ]
+  }
+}
+```
+
+### Hash Validation
+```ruby
+# Simple hash
+metadata: { type: Hash, required: false }
+
+# Hash with nested structure
+address: {
+  type: Hash,
+  required: true,
+  items: [
+    { field: :street, type: String, required: true },
+    { field: :city, type: String, required: true },
+    { field: :zip_code, type: String, format: /\A\d{5}(-\d{4})?\z/ }
+  ]
+}
 ```
 
 ## Features
@@ -127,8 +237,8 @@ end
 - **Nested Validation**: Support for validating nested Hash/Array parameters
 - **Custom Error Handling**: Detailed error messages with field context
 - **Rails Integration**: Seamless integration through Rails controller concerns
-- **DSL Support**: Flexible DSL for defining validation rules
 - **Generator Commands**: Easy validator generation and management
+- **Comprehensive Types**: Support for all major data types and complex nested structures
 
 ## Development
 
