@@ -63,67 +63,101 @@ class API::ValidateParameters::UsersValidator
 
   # Or with comprehensive validation rules defined:
   # FIELDS_VALIDATES = {
-  #   # Basic string validation
-  #   name: { required: true, type: String, min: 2, max: 50 },
-  #   
-  #   # Email with format validation
-  #   email: { required: true, type: String, format: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i },
-  #   
-  #   # Integer with range validation
-  #   age: { required: false, type: Integer, min: 18, max: 120 },
-  #   
-  #   # Float validation
-  #   price: { required: true, type: Float, min: 0.01 },
-  #   
-  #   # Boolean validation
-  #   active: { required: false, type: Boolean },
-  #   
-  #   # Date validation
-  #   birth_date: { required: false, type: Date },
-  #   
-  #   # DateTime validation
-  #   created_at: { required: false, type: DateTime },
-  #   
-  #   # Enum validation with 'in' option
-  #   status: { required: true, type: String, in: %w[active inactive pending] },
-  #   
-  #   # Array validation
-  #   tags: { required: false, type: Array },
-  #   
-  #   # Array with specific item types
-  #   category_ids: { required: false, type: Array, items: { type: Integer } },
-  #   
-  #   # Hash validation
-  #   metadata: { required: false, type: Hash },
-  #   
-  #   # Nested Hash validation with structure
-  #   address: { 
-  #     required: false, 
-  #     type: Hash,
-  #     items: [
-  #       { field: :street, type: String, required: true },
-  #       { field: :city, type: String, required: true },
-  #       { field: :state, type: String, required: true, in: %w[CA NY TX FL] },
-  #       { field: :zip_code, type: String, required: true, format: /\A\d{5}(-\d{4})?\z/ },
-  #       { field: :country, type: String, required: false, default: "US" }
+  #   # Basic field validation with opts array
+  #   name_validate: {
+  #     field: :name, 
+  #     type: String, 
+  #     opts: [
+  #       { required: true, message: "Name is required" },
+  #       { min: 2, message: "Name must be at least 2 characters" },
+  #       { max: 50, message: "Name cannot exceed 50 characters" }
   #     ]
   #   },
   #   
-  #   # Complex nested structure
-  #   user_profile: {
-  #     required: false,
-  #     type: Hash,
-  #     items: [
-  #       { field: :bio, type: String, required: false, max: 500 },
-  #       { field: :social_links, type: Array, required: false,
-  #         items: {
-  #           type: Hash,
-  #           items: [
-  #             { field: :platform, type: String, required: true, in: %w[twitter facebook linkedin] },
-  #             { field: :url, type: String, required: true, format: /\Ahttps?:\/\// }
-  #           ]
-  #         }
-  #       }
+  #   # Email validation with format and required
+  #   email_validate: {
+  #     field: :email, 
+  #     type: String, 
+  #     opts: [
+  #       { required: true, message: "Email is required" },
+  #       { format: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i, message: "Invalid email format" }
+  #     ]
+  #   },
+  #   
+  #   # Integer validation with range
+  #   age_validate: {
+  #     field: :age, 
+  #     type: Integer, 
+  #     opts: [
+  #       { required: false },
+  #       { min: 18, message: "Age must be at least 18" },
+  #       { max: 120, message: "Age cannot exceed 120" }
+  #     ]
+  #   },
+  #   
+  #   # String validation with blank check
+  #   search_criteria_validate: {
+  #     field: :search_criteria, 
+  #     type: String, 
+  #     opts: [
+  #       { required: true, message: "Search criteria is required" },
+  #       { blank: false, message: "Search criteria cannot be blank" }
+  #     ]
+  #   },
+  #   
+  #   # Float validation with minimum value
+  #   price_validate: {
+  #     field: :price, 
+  #     type: Float, 
+  #     opts: [
+  #       { required: true, message: "Price is required" },
+  #       { min: 0.01, message: "Price must be greater than 0" }
+  #     ]
+  #   },
+  #   
+  #   # Boolean validation
+  #   active_validate: {
+  #     field: :active, 
+  #     type: Boolean, 
+  #     opts: [
+  #       { required: false }
+  #     ]
+  #   },
+  #   
+  #   # Date validation
+  #   birth_date_validate: {
+  #     field: :birth_date, 
+  #     type: Date, 
+  #     opts: [
+  #       { required: false }
+  #     ]
+  #   },
+  #   
+  #   # DateTime validation
+  #   created_at_validate: {
+  #     field: :created_at, 
+  #     type: DateTime, 
+  #     opts: [
+  #       { required: false }
+  #     ]
+  #   },
+  #   
+  #   # Enum validation with 'in' option
+  #   status_validate: {
+  #     field: :status, 
+  #     type: String, 
+  #     opts: [
+  #       { required: true, message: "Status is required" },
+  #       { in: %w[active inactive pending], message: "Status must be active, inactive, or pending" }
+  #     ]
+  #   },
+  #   
+  #   # Array validation
+  #   tags_validate: {
+  #     field: :tags, 
+  #     type: Array, 
+  #     opts: [
+  #       { required: false }
   #     ]
   #   }
   # }.freeze
@@ -174,6 +208,19 @@ This removes both parameter and business logic validators.
 
 ## Validation Options
 
+### FIELDS_VALIDATES Structure
+
+Each validation rule follows this structure:
+```ruby
+field_name_validate: {
+  field: :field_name,    # The parameter field to validate
+  type: Type,            # The expected data type
+  opts: [                # Array of validation options
+    { option: value, message: "custom message" }
+  ]
+}
+```
+
 ### Basic Types
 - `String` - String validation with optional min/max length
 - `Integer` - Integer validation with optional min/max range
@@ -184,51 +231,70 @@ This removes both parameter and business logic validators.
 - `Array` - Array validation with optional item type validation
 - `Hash` - Hash validation with optional nested structure validation
 
-### Common Options
+### Common Options (used in opts array)
 - `required: true|false` - Whether the field is required
 - `min: value` - Minimum value/length
 - `max: value` - Maximum value/length
-- `default: value` - Default value if not provided
+- `blank: false` - Prevents blank strings (empty or whitespace-only)
 - `format: /regex/` - Regular expression validation
 - `in: [values]` - Enum validation (value must be in the specified array)
-- `message: "custom message"` - Custom error message
+- `message: "custom message"` - Custom error message for the validation rule
+
+### Example Usage
+```ruby
+FIELDS_VALIDATES = {
+  account_id_validate: {
+    field: :account_id,
+    type: Integer,
+    opts: [
+      { required: true, message: "Account ID is required" }
+    ]
+  },
+  search_criteria_validate: {
+    field: :search_criteria,
+    type: String,
+    opts: [
+      { required: true, message: "Search criteria is required" },
+      { blank: false, message: "Search criteria cannot be blank" }
+    ]
+  }
+}.freeze
+```
 
 ### Array Validation
 ```ruby
 # Simple array
-tags: { type: Array, required: false }
-
-# Array with typed items
-category_ids: { type: Array, items: { type: Integer } }
-
-# Array with complex item validation
-social_links: { 
+tags_validate: { 
+  field: :tags, 
   type: Array, 
-  items: {
-    type: Hash,
-    items: [
-      { field: :platform, type: String, required: true },
-      { field: :url, type: String, required: true, format: /\Ahttps?:\/\// }
-    ]
-  }
+  opts: [
+    { required: false }
+  ]
+}
+
+# Array with typed items (refer to rails_param gem documentation for complex array validation)
+category_ids_validate: { 
+  field: :category_ids, 
+  type: Array, 
+  opts: [
+    { required: false }
+  ]
 }
 ```
 
 ### Hash Validation
 ```ruby
 # Simple hash
-metadata: { type: Hash, required: false }
-
-# Hash with nested structure
-address: {
-  type: Hash,
-  required: true,
-  items: [
-    { field: :street, type: String, required: true },
-    { field: :city, type: String, required: true },
-    { field: :zip_code, type: String, format: /\A\d{5}(-\d{4})?\z/ }
+metadata_validate: { 
+  field: :metadata, 
+  type: Hash, 
+  opts: [
+    { required: false }
   ]
 }
+
+# For complex nested hash validation, refer to rails_param gem documentation
+# This gem provides a simpler structure focused on field-level validation
 ```
 
 ## Features
