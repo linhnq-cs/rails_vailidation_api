@@ -17,7 +17,7 @@ module RailsValidationApi
     def validate
       return false if @rules.nil? || @rules.empty?
 
-      @rules.each do |rule_name, rule|
+      @rules.each do |rule, _|
         validate_field(rule)
       end
       if @errors.any?
