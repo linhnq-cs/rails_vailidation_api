@@ -217,6 +217,9 @@ field_name_validate: {
   type: Type,            # The expected data type
   opts: [                # Array of validation options
     { option: value, message: "custom message" }
+  ],
+  items: [               # Optional: Array of nested field validations (for Hash types)
+    { field: :nested_field, type: Type, opts: [...] }
   ]
 }
 ```
@@ -239,6 +242,9 @@ field_name_validate: {
 - `format: /regex/` - Regular expression validation
 - `in: [values]` - Enum validation (value must be in the specified array)
 - `message: "custom message"` - Custom error message for the validation rule
+
+### Hash Structure Options
+- `items: [...]` - Array of nested field validations for Hash types (see Hash Validation section)
 
 ### Example Usage
 ```ruby
@@ -293,8 +299,22 @@ metadata_validate: {
   ]
 }
 
-# For complex nested hash validation, refer to rails_param gem documentation
-# This gem provides a simpler structure focused on field-level validation
+# Complex nested hash validation with items array
+user_profile_validate: {
+  field: :user_profile,
+  type: Hash,
+  opts: [
+    { required: true, message: "User profile is required" }
+  ],
+  items: [
+    { field: :name, type: String, opts: [{ required: true, message: "Name is required" }] },
+    { field: :age, type: Integer, opts: [{ required: false }] },
+    { field: :email, type: String, opts: [
+      { required: true, message: "Email is required" },
+      { format: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i, message: "Invalid email format" }
+    ]}
+  ]
+}
 ```
 
 ## Features
