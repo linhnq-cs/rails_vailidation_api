@@ -76,37 +76,73 @@ RSpec.describe RailsValidationApi do
   end
 
   describe "integration tests" do
-    it "builds rules and validates parameters successfully" do
-      rules = RailsValidationApi.build do
-        param! :name, String, required: true
-        param! :age, Integer, required: true, min: 0
-        param! :email, String, required: true
-      end
+    it "validates parameters successfully with new rules format" do
+      rules = [
+        {
+          field: :name, type: String, opts: [
+            { required: true, message: "Name is required" }
+          ]
+        },
+        {
+          field: :age, type: Integer, opts: [
+            { required: true, min: 0, message: "Age is required and must be at least 0" }
+          ]
+        },
+        {
+          field: :email, type: String, opts: [
+            { required: true, message: "Email is required" }
+          ]
+        }
+      ]
       valid_params = { name: "John", age: 25, email: "john@example.com" }
       validator = RailsValidationApi::Validator.new(valid_params, rules)
       expect { validator.validate }.not_to raise_error
     end
 
     it "builds rules and fails validation for invalid parameters" do
-      rules = RailsValidationApi.build do
-        param! :name, String, required: true
-        param! :age, Integer, required: true, min: 0
-      end
+      rules = [
+    {
+      field: :account_id, type: Integer, opts: [
+        { required: true, message: "Account id is required" }
+      ]
+    }]
       invalid_params = { age: -5 }
       validator = RailsValidationApi::Validator.new(invalid_params, rules)
       expect { validator.validate }.to raise_error(RailsValidationApi::Error)
     end
 
     it "handles complex nested validation scenarios" do
-      rules = RailsValidationApi.build do
-        param! :user, Hash, required: true do
-          param! :name, String, required: true
-          param! :contact, Hash, required: true do
-            param! :email, String, required: true
-            param! :phone, String, required: false
-          end
-        end
-      end
+      rules = [
+        {
+          field: :user, type: Hash, opts: [
+            { required: true, message: "User is required" }
+          ],
+          items: [
+            {
+              field: :name, type: String, opts: [
+                { required: true, message: "Name is required" }
+              ]
+            },
+            {
+              field: :contact, type: Hash, opts: [
+                { required: true, message: "Contact is required" }
+              ],
+              items: [
+                {
+                  field: :email, type: String, opts: [
+                    { required: true, message: "Email is required" }
+                  ]
+                },
+                {
+                  field: :phone, type: String, opts: [
+                    { required: false, message: "Phone is optional" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
       valid_params = {
         user: {
           name: "John Doe",

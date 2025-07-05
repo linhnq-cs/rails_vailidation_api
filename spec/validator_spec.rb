@@ -3,10 +3,10 @@ require "spec_helper"
 RSpec.describe RailsValidationApi::Validator do
   let(:params) { { name: "John", age: 25, email: "test@example.com" } }
   let(:rules) do
-    {
-      name_validate: { field: :name, type: String, opts: [{ required: true }] },
-      age_validate: { field: :age, type: Integer, opts: [{ required: true }] }
-    }
+    [
+      { field: :name, type: String, opts: [{ required: true }] },
+      { field: :age, type: Integer, opts: [{ required: true }] }
+    ]
   end
 
   subject { described_class.new(params, rules) }
@@ -21,7 +21,6 @@ RSpec.describe RailsValidationApi::Validator do
       ac_params = double("ActionController::Parameters")
       allow(ac_params).to receive(:is_a?).with(ActionController::Parameters).and_return(true)
       allow(ac_params).to receive(:to_unsafe_h).and_return(params)
-      
       validator = described_class.new(ac_params, rules)
       expect(validator.params).to eq(params)
     end
@@ -42,7 +41,7 @@ RSpec.describe RailsValidationApi::Validator do
       end
 
       it "returns false for empty rules" do
-        validator = described_class.new(params, {})
+        validator = described_class.new(params, [])
         expect(validator.validate).to be false
       end
     end
@@ -78,8 +77,8 @@ RSpec.describe RailsValidationApi::Validator do
       end
 
       let(:nested_rules) do
-        {
-          user_validate: {
+        [
+          {
             field: :user,
             type: Hash,
             opts: [{ required: true }],
@@ -88,7 +87,7 @@ RSpec.describe RailsValidationApi::Validator do
               { field: :age, type: Integer, opts: [{ required: false }] }
             ]
           }
-        }
+        ]
       end
 
       it "validates nested hash parameters" do
