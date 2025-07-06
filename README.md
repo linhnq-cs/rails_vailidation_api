@@ -335,7 +335,38 @@ user_profile_validate: {
 Run the test example:
 
 ```bash
-ruby runtest.rb
+git clone git@github.com:linhnq-cs/rails_vailidation_api_in_rails.git
+```
+
+```bash
+cd rails_vailidation_api_in_rails
+```
+
+```basdh
+bundle install
+```
+
+```bash
+rails s
+```
+
+### Postman to request 
+
+```bash
+POST localhost:3001/api/v1/home
+{
+    "account_id": "1", 
+    "approved_purchasing_list": {
+        "name": "a",
+        "effective_date": "06-07-2025",
+        "list_type": "priority"
+    },
+    "published_account_ids": [
+        1,
+        2,
+        3
+    ]
+}
 ```
 
 ### Building the Gem
