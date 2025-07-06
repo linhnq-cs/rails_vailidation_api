@@ -36,7 +36,7 @@ This will generate the required application validator structure in your Rails ap
 
 The gem provides automatic parameter validation through Rails controller concerns. It automatically loads validators based on controller and action names.
 
-Add `Add "config.autoload_paths += %w(\#{config.root}/app/validators/)" in config/application.rb to autoload validators``
+Add `"config.autoload_paths += %w(\#{config.root}/app/validators/)"` in config/application.rb to autoload validators
 
 #### Example Controller
 
