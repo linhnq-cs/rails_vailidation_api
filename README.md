@@ -2,7 +2,7 @@
 
 Enhanced parameter validation system for Rails APIs with automatic controller integration.
 
-Rails Validation API provides a powerful DSL for validating request parameters in Rails applications. Features include automatic validator loading based on controller/action names, nested parameter validation, custom error handling, and seamless integration with Rails controllers through concerns. Perfect for API applications requiring robust parameter validation with minimal boilerplate code.
+Rails Validation API provides a powerful for validating request parameters in Rails applications. Features include automatic validator loading based on controller/action names, nested parameter validation, custom error handling, and seamless integration with Rails controllers through concerns. Perfect for API applications requiring robust parameter validation with minimal boilerplate code.
 
 ## Installation
 
@@ -35,6 +35,8 @@ This will generate the required application validator structure in your Rails ap
 ### Basic Usage
 
 The gem provides automatic parameter validation through Rails controller concerns. It automatically loads validators based on controller and action names.
+
+Add `Add "config.autoload_paths += %w(\#{config.root}/app/validators/)" in config/application.rb to autoload validators``
 
 #### Example Controller
 

@@ -114,18 +114,19 @@ module RailsValidationApi
     end
 
     def valid_type?(value, type)
-      case type
-      when String
+      value = format_string_to_int(value, type)
+      case type.to_s
+      when String.to_s
         value.is_a?(String)
-      when Integer
+      when Integer.to_s
         value.is_a?(Integer)
-      when Float
+      when Float.to_s
         value.is_a?(Float) || value.is_a?(Integer)
-      when Hash
+      when Hash.to_s
         value.is_a?(Hash)
-      when Array
+      when Array.to_s
         value.is_a?(Array)
-      when TrueClass, FalseClass
+      when TrueClass.to_s, FalseClass.to_s
         value.is_a?(TrueClass) || value.is_a?(FalseClass)
       else
         value.is_a?(type)
@@ -156,6 +157,16 @@ module RailsValidationApi
         message = opt[:message] || "Parameter #{field} cannot be blank"
         @errors << { field: field, message: message }
       end
+    end
+
+    def format_string_to_int(value, type)
+      return value unless value.is_a?(String)
+
+      return Integer(value) rescue value if type == Integer
+      return Float(value) rescue value if type == Float
+      value
+    rescue ArgumentError
+      value
     end
   end
 end
