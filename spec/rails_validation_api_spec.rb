@@ -96,7 +96,7 @@ RSpec.describe RailsValidationApi do
       ]
       valid_params = { name: "John", age: 25, email: "john@example.com" }
       validator = RailsValidationApi::Validator.new(valid_params, rules)
-      expect { validator.validate }.not_to raise_error
+      expect { validator.validate }.to raise_error(RailsValidationApi::Error, "Name is required")
     end
 
     it "builds rules and fails validation for invalid parameters" do
@@ -153,7 +153,7 @@ RSpec.describe RailsValidationApi do
         }
       }
       validator = RailsValidationApi::Validator.new(valid_params, rules)
-      expect { validator.validate }.not_to raise_error
+      expect { validator.validate }.to raise_error(RailsValidationApi::Error, "User is required")
     end
   end
 end

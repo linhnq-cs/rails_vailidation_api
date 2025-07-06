@@ -17,6 +17,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "activesupport", ">= 5.0"
   spec.add_dependency "rails_param", "~> 1.3.1"
   spec.add_dependency "activemodel", ">= 5.0"
+  spec.add_dependency "railties", ">= 5.0"
 
   spec.add_development_dependency "debug", "~> 1.0"
   spec.add_development_dependency "rspec", "~> 3.0"

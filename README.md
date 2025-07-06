@@ -32,19 +32,18 @@ After installing the gem, run the install command to set up the necessary files:
 
 This will generate the required application validator structure in your Rails application.
 
+```bash
+bundle exec rails generate rails_validation_api:install                                                                           |
+```
+
 ### Basic Usage
 
 The gem provides automatic parameter validation through Rails controller concerns. It automatically loads validators based on controller and action names.
-
-Add `"config.autoload_paths += %w(\#{config.root}/app/validators/)"` in config/application.rb to autoload validators
 
 #### Example Controller
 
 ```ruby
 class API::UsersController < ApplicationController
-  require "auto_load_rails_validation_api"
-  include AutoLoadRailsValidation
-
   def create
     # Parameters are automatically validated using API::ValidateParameters::UsersValidator
     # and API::UsersValidator (if they exist)

@@ -28,6 +28,7 @@ module RailsValidationApi
           raise RailsValidationApi::Error.new(error[:field], :unprocessable_entity, error[:message])
         end
       end
+      nil
     end
 
     private

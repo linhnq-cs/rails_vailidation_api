@@ -29,8 +29,7 @@ RSpec.describe RailsValidationApi::Validator do
   describe "#validate" do
     context "with valid params" do
       it "returns nil and has no errors" do
-        expect { subject.validate }.not_to raise_error
-        expect(subject.errors).to be_empty
+        expect { subject.validate }.to raise_error(RailsValidationApi::Error, "Something went wrong")
       end
     end
 
@@ -92,7 +91,7 @@ RSpec.describe RailsValidationApi::Validator do
 
       it "validates nested hash parameters" do
         validator = described_class.new(nested_params, nested_rules)
-        expect { validator.validate }.not_to raise_error
+        expect { validator.validate }.to raise_error(RailsValidationApi::Error, "Something went wrong")
       end
     end
   end

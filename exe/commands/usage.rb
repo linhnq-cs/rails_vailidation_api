@@ -1,7 +1,6 @@
 puts <<~TEXT
   -------------------------------------------------------------------------------------------------------------------------------------------------
-  |    Add "include AutoLoadRailsValidationApi" to your controller ex: API::BaseController < ApplicationController to use the RailsValidationApi  |
-  |    Add "config.autoload_paths += %w(\#{config.root}/app/validators/)" in config/application.rb to autoload validators.                         |
+  |    Install: bundle exec rails generate rails_validation_api:install                                                                           |
   |-----------------------------------------------------------------------------------------------------------------------------------------------|                                                                                                                                       |     
   |    To use the RailsValidationApi, you need to add the following line to your Gemfile:                                                         |
   |    Usage: bundle exec rails_validation_api <command> [name]                                                                                   |
