@@ -389,3 +389,9 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/linhnq
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
 # rails_vailidation_api_test
+
+## ☕ Support Me
+
+If you find this gem helpful, consider [buying me a coffee](https://www.buymeacoffee.com/linh236) to support my work 🙌
+
+[![Buy Me A Coffee](https://img.shields.io/badge/☕-Buy%20me%20a%20coffee-yellow?logo=buy-me-a-coffee&style=for-the-badge)](https://www.buymeacoffee.com/linh236)
