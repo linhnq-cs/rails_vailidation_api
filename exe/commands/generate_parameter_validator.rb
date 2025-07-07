@@ -1,8 +1,9 @@
 module GenerateValidator
   def generate_parameter_validator(name)
+    name = name.classify
     api = check_inflection(name)
     class_name = "#{name.camelize}Validator"
-    path = "app/validators/api/validate_parameters/#{name}_validator.rb"
+    path = "app/validators/api/validate_parameters/#{name.downcase}_validator.rb"
 
     FileUtils.mkdir_p(File.dirname(path))
 
@@ -35,8 +36,9 @@ module GenerateValidator
   end
 
   def destroy_validator(name)
-    params_path = "app/validators/api/validate_parameters/#{name}_validator.rb"
-    path = "app/validators/api/#{name}_validator.rb"
+    name = name.classify
+    params_path = "app/validators/api/validate_parameters/#{name.downcase}_validator.rb"
+    path = "app/validators/api/#{name.downcase}_validator.rb"
 
     if File.exist?(path)
       File.delete(path)
@@ -53,9 +55,10 @@ module GenerateValidator
   end
 
   def generate_validator(name)
+    name = name.classify
     api = check_inflection(name)
     class_name = "#{name.camelize}Validator"
-    path = "app/validators/api/#{name}_validator.rb"
+    path = "app/validators/api/#{name.downcase}_validator.rb"
 
     FileUtils.mkdir_p(File.dirname(path))
 

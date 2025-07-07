@@ -13,6 +13,10 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.executables = ["rails_validation_api"]
   spec.bindir      = "exe"
+  spec.metadata["homepage_uri"] = spec.homepage
+  spec.metadata["source_code_uri"] = "https://github.com/linhnq-cs/rails_validation_api"
+  spec.metadata["bug_tracker_uri"] = "https://github.com/linhnq-cs/rails_vailidation_api/issues"
+  spec.metadata["funding_uri"] = "https://www.buymeacoffee.com/linh236"
 
   spec.add_dependency "activesupport", ">= 5.0"
   spec.add_dependency "rails_param", "~> 1.3.1"
