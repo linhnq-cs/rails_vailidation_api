@@ -45,7 +45,7 @@ The gem provides automatic parameter validation through Rails controller concern
 ```ruby
 class API::UsersController < ApplicationController
   def create
-    # Parameters are automatically validated using API::ValidateParameters::UsersValidator
+    # Parameters are automatically validated using API::ValidateParameters::UserValidator
     # and API::UsersValidator (if they exist)
     
     # Your controller logic here
@@ -57,8 +57,8 @@ end
 #### Example Validator
 
 ```ruby
-# app/validators/api/validate_parameters/users_validator.rb
-class API::ValidateParameters::UsersValidator
+# app/validators/api/validate_parameters/user_validator.rb
+class API::ValidateParameters::UserValidator
   # Default empty hash - define your validation rules here
   FIELDS_VALIDATES = {}.freeze
 
@@ -194,8 +194,8 @@ bundle exec rails_validation_api generate users
 ```
 
 This creates:
-- `app/validators/api/validate_parameters/users_validator.rb` - Parameter validation
-- `app/validators/api/users_validator.rb` - Business logic validation
+- `app/validators/api/validate_parameters/user_validator.rb` - Parameter validation
+- `app/validators/api/user_validator.rb` - Business logic validation
 
 ### Destroy Validators
 
@@ -352,7 +352,7 @@ rails s
 ### Postman to request 
 
 ```bash
-POST localhost:3001/api/v1/home
+POST localhost:3000/api/v1/home
 {
     "account_id": "1", 
     "approved_purchasing_list": {
