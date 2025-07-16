@@ -183,6 +183,91 @@ class API::ValidateParameters::UserValidator
 end
 ```
 
+## Release-1.3.2 fix some issues about netsted array, hash
+
+```bash
+  FIELDS_VALIDATES = {
+    account_id_validate:
+    {
+      field: :account_id, type: Integer, opts: [
+        { required: true, message: "Account id is required" }
+      ]
+    },
+    published_account_ids_validate:
+    {
+      field: :published_account_ids, type: Array, opts: [
+        { required: true, message: "Published account ids are optional" },
+        { blank: false, message: "Published account ids can't be blank" },
+        { type: Integer }
+      ]
+    },
+    search_criteria_validate:
+    {
+      field: :search_criteria, type: String, opts: [
+        { required: true, message: "Search is optional" }
+      ]
+    },
+    approved_purchasing_list_validate: {
+      field: :approved_purchasing_list, type: Hash, opts: [
+        { required: false },
+      ], items: [
+        { field: :name, type: String, opts: [
+            { required: true, message: "Name is required" },
+            { blank: false, message: "Name can't be blank" }
+          ]
+        },
+        { field: :effective_date, type: Date, opts: [
+            { required: true, message: "Effective date is required" },
+            { blank: false, message: "Effective date can't be blank" },
+            { format: "%Y-%m-%d", message: "Effective date format is invalid" }
+          ]
+        },
+        { field: :list_type, type: String, opts: [
+            { required: true, message: "List type is required" },
+            { blank: false, message: "List type can't be blank" },
+            { in: %w[locked priority], message: "List type must be 'locked' or 'priority'" }
+          ]
+        },
+        approved_purchasing_list_vendors_attributes_validate: {
+          field: :approved_purchasing_list_vendors_attributes, type: Array, opts: [
+            { required: false }
+          ], items: [
+            { field: :vendor_id, type: Array, opts: [
+                { required: true, message: "Vendor ID is required" },
+                { blank: false, message: "Vendor ID can't be blank" },
+                { type: Integer, message: "Vendor ID must be an integer" }
+              ]
+            },
+            { field: :vendor_name, type: String, opts: [
+                { required: true, message: "Vendor name is required" },
+                { blank: false, message: "Vendor name can't be blank" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    approved_purchasing_list_vendors_attributes_validate: {
+      field: :approved_purchasing_list_vendors_attributes, type: Array, opts: [
+        { required: false }
+      ], items: [
+        { field: :vendor_id, type: Array, opts: [
+            { required: true, message: "Vendor ID is required" },
+            { blank: false, message: "Vendor ID can't be blank" },
+            { type: Integer, message: "Vendor ID must be an integer" }
+          ]
+        },
+        { field: :vendor_name, type: String, opts: [
+            { required: true, message: "Vendor name is required" },
+            { blank: false, message: "Vendor name can't be blank" }
+          ]
+        }
+      ]
+    }
+  }.freeze
+
+```
+
 ## Commands
 
 ### Generate Validators
